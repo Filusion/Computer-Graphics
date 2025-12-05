@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Super Palla Rossa</title>
+    <script type="importmap">
+        {
+            "imports": {
+                "engine/": "../../../engine/",
+                "dat": "../../../lib/dat.js",
+                "glm": "../../../lib/glm.js"
+            }
+        }
+    </script>
+    <script type="module" src="main.js"></script>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <audio id="bgMusic" loop>
+        <source src="mario.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="coinSound">
+        <source src="coin.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="starSound">
+        <source src="star.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="Goomba">
+        <source src="goomba.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="button">
+        <source src="button.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <button id="muteButton">🔇 Unmute</button>
+    <div class="fullscreen">
+        <div class="menu">
+            <h1>Super Palla Rossa</h1>
+            <button id="play-button">Play</button>
+            <button id="instructions-button">Instructions</button>
+        </div>
+
+        <div id="loading-screen" style="display: none;">
+            <h2>Loading World...</h2>
+        </div>
+        <canvas id="gameCanvas"></canvas>
+        <div class="instructions" id="instructions">
+            <h2>Instructions</h2>
+            <ul>
+                <li><b>WASD:</b> Move the ball</li>
+                <li><b>Spacebar:</b> Jump</li>
+                <li><b>Goal to win:</b> Collect at least 10 coins and 2 stars (the last one doesn't count :), kill atleast 5 enemies and reach the final destination before the timer runs out!</li>
+                <li>By the way there is a hidden coin, you need to collect that one too to win :)</li>
+
+            </ul>
+            <button id="back-button">Back</button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { startGame } from './main.js';
+
+        const playButton = document.getElementById('play-button');
+        const instructionsButton = document.getElementById('instructions-button');
+        const levelSelectButton = document.getElementById('level-select-button');
+        const backButton = document.getElementById('back-button');
+        const menu = document.querySelector('.menu');
+        const instructions = document.getElementById('instructions');
+        const bgMusic = document.getElementById('bgMusic');
+        const muteButton = document.getElementById('muteButton');
+        const canvas = document.getElementById('gameCanvas');
+        const loadingScreen = document.getElementById('loading-screen');
+        const coinSound = document.getElementById('coinSound');
+
+        let musicStarted = false;
+
+
+        document.addEventListener('keydown', (event) => {
+            if (event.code === 'Space') {
+                event.preventDefault();
+                console.log('Spacebar pressed for jump');
+            }
+        });
+
+        bgMusic.muted = true;
+        muteButton.textContent = '🔇 Unmute';
+
+        muteButton.addEventListener('click', () => {
+            if (!musicStarted) {
+                const playPromise = bgMusic.play();
+                if (playPromise !== undefined) {
+                    playPromise
+                        .then(() => {
+                            musicStarted = true;
+                            bgMusic.muted = false;
+                            muteButton.textContent = '🔊 Mute';
+                        })
+                        .catch(error => {
+                            console.error('Music could not start:', error);
+                        });
+                }
+            } else {
+                bgMusic.muted = !bgMusic.muted;
+                muteButton.textContent = bgMusic.muted ? '🔇 Unmute' : '🔊 Mute';
+            }
+        });
+
+        
+        instructionsButton.addEventListener('click', () => {
+            menu.style.display = 'none'; 
+            instructions.style.display = 'block'; 
+            canvas.style.display = 'none'; 
+            loadingScreen.style.display = 'none'; 
+        });
+
+
+        backButton.addEventListener('click', () => {
+            instructions.style.display = 'none';
+            menu.style.display = 'block';
+            canvas.style.display = 'none'; 
+            loadingScreen.style.display = 'none'; 
+
+        });
+
+        playButton.addEventListener('click', () => {
+            console.log('Play button clicked');
+            if (menu) menu.style.display = 'none'; 
+            if (canvas) canvas.style.display = 'block'; 
+            console.log('Starting game...');
+            loadingScreen.style.display = 'flex'; 
+
+           
+            setTimeout(() => {
+                loadingScreen.style.display = 'none'; 
+                if (canvas) canvas.style.display = 'block'; 
+                console.log('Starting game...');
+                startGame(); 
+            }, 2000); 
+        });
+
+         
+        
+    </script>
+</body>
+</html>

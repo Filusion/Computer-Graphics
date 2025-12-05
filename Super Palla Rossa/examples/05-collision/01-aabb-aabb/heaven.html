@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You Are in Heaven</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            background: linear-gradient(to bottom, #87CEFA, #E0FFFF);
+            color: white;
+            font-family: "Georgia", serif;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 4em;
+            color: #FFD700;
+            text-shadow: 0 0 10px #FFF, 0 0 20px #FFD700, 0 0 30px #FFA500;
+        }
+
+        p {
+            font-size: 1.5em;
+            color: #FFFFFF;
+            margin: 10px 20px;
+            text-shadow: 0 0 8px #000;
+            position: relative;
+            top: -20px;
+        }
+
+        button {
+            margin-top: 30px;
+            padding: 10px 20px;
+            font-size: 1.5em;
+            cursor: pointer;
+            background-color: #32CD32;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        button:hover {
+            background-color: #228B22;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .cloud {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.8;
+        }
+
+        .cloud-small {
+            width: 80px;
+            height: 40px;
+            top: 10%;
+            left: 15%;
+            animation: float 6s infinite;
+        }
+
+        .cloud-medium {
+            width: 120px;
+            height: 60px;
+            top: 25%;
+            left: 60%;
+            animation: float 8s infinite;
+        }
+
+        .cloud-large {
+            width: 200px;
+            height: 100px;
+            top: 50%;
+            left: 30%;
+            animation: float 10s infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(60px);
+            }
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        #muteButton {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: white;
+            border: 2px solid black;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            z-index: 1001;
+        }
+
+        #muteButton:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <h1>You Are in Heaven</h1>
+    <p>Welcome to eternal peace and happiness.</p>
+    <button id="continue-button">Explore More</button>
+    <button id="playAgainButton">Play Again</button>
+    <button id="muteButton">🔇</button>
+
+    <div class="cloud cloud-small"></div>
+    <div class="cloud cloud-medium"></div>
+    <div class="cloud cloud-large"></div>
+
+    <audio id="heaven" autoplay loop>
+        <source src="heaven.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        const muteButton = document.getElementById('muteButton');
+        const playAgainButton = document.getElementById('playAgainButton');
+        const continueButton = document.getElementById("continue-button");
+
+        let musicStarted = false;
+
+        heaven.muted = true;
+        muteButton.textContent = '🔇';
+
+        muteButton.addEventListener('click', () => {
+            if (!musicStarted) {
+                const playPromise = heaven.play();
+                if (playPromise !== undefined) {
+                    playPromise
+                        .then(() => {
+                            musicStarted = true;
+                            heaven.muted = false;
+                            muteButton.textContent = '🔊';
+                        })
+                        .catch(error => {
+                            console.error('Music could not start:', error);
+                        });
+                }
+            } else {
+                heaven.muted = !heaven.muted;
+                muteButton.textContent = heaven.muted ? '🔇' : '🔊';
+            }
+        });
+
+        continueButton.addEventListener("click", () => {
+            window.location.href = "heaven2.html";
+        });
+
+        playAgainButton.addEventListener('click', () => {
+            heaven.play();
+            window.location.href = "you-died.html";
+        });
+
+        const music = document.getElementById('heaven');
+        if (music) {
+            document.body.addEventListener('click', () => {
+                if (music.paused) {
+                    music.play().catch(error => {
+                        console.warn("Music failed to play:", error);
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+

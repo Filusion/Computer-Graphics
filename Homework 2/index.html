@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bezier Curves</title>
+    <link rel="stylesheet" href="styles.css"> 
+</head>
+<body>
+    <div class="controls">
+        <button id="addSpline" title="Add a new spline to the canvas">Add Spline</button>
+        <button id="ensureContinuity"  title="Align the start and end points of adjacent splines to ensure smooth transitions">Ensure Continuity</button>
+        <button id="ensureSmoothness" title="Adjust control points for smooth tangents between adjacent splines">Ensure Smoothness</button>
+        <button id="deleteSplines" title="Remove all splines from the canvas">Delete All Splines</button>
+    </div>
+    <canvas id="myCanvas" width="1000" height="600"></canvas>
+    <div class="instructions">
+        <h2>Instructions</h2>
+        <p>
+            Click on the canvas to curves.
+        </p>
+        <p>
+            Use the buttons above to manipulate the Bezier splines on the canvas:
+        </p>
+        <ul>
+            <li><strong>Add Spline:</strong> Click to add a new spline to the canvas.</li>
+            <li><strong>Ensure Continuity:</strong> Adjust the splines to connect smoothly at their endpoints.</li>
+            <li><strong>Ensure Smoothness:</strong> Refine the control points for a smooth transition between splines.</li>
+            <li><strong>Delete All Splines:</strong> Clear the canvas by removing all splines.</li>
+        </ul>
+        <p>
+            Move curves around by pressing on the line and dragging it wherever you want. (it selects the nearest control point of the curve)
+        </p>
+        <p>
+        Delete a curve by simply clicking on the desired untill it is red and the "Delete" button on your keyboard.
+        </p>
+    </div>
+    <script src="dn2.js"></script>
+    
+</body>
+</html>
